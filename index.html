@@ -1,164 +1,408 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Abhishek Deshmukh | AI Web Creator</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Abhishek Deshmukh — AI-Powered Web & App Developer</title>
+  <meta name="description" content="Abhishek Deshmukh — Futuristic web & AI creator. Portfolio: AI sites, Flask news app, advertising & e-commerce UI. Contact: WhatsApp 8793727113" />
+  <!-- Tailwind CDN (small, good for quick deploy) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Animate.css -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <!-- tsParticles for particle field -->
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.7.1/tsparticles.min.js"></script>
   <style>
-    body {
-      margin: 0;
-      overflow-x: hidden;
-      background: radial-gradient(ellipse at bottom, #0d0d1b 0%, #000000 100%);
-      color: #e0e0e0;
-      font-family: 'Poppins', sans-serif;
+    :root{
+      --bg1:#020117; --bg2:#04031a; --neon1:#7b61ff; --neon2:#00eaff; --muted:#9aa3b2;
     }
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 0;
-    }
-    .content {
-      position: relative;
-      z-index: 10;
-    }
-    .glass {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 25px rgba(123,97,255,0.2);
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
-    .glass:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 0 40px rgba(123,97,255,0.6);
-    }
-    .btn {
-      background: linear-gradient(90deg,#7b61ff,#00eaff);
-      color: white;
-      font-weight: 600;
-      padding: 12px 28px;
-      border-radius: 9999px;
-      transition: all 0.3s ease;
-    }
-    .btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 25px #00eaff;
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+    body{background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#e6eef8;overflow-x:hidden;}
+    /* canvas bg covers */
+    #three-bg{position:fixed;inset:0;z-index:0;pointer-events:none;}
+    /* main content above 3D bg */
+    .site{position:relative;z-index:10}
+    /* neon title */
+    .neon {
+      color: #e9ecff;
+      text-shadow: 0 0 8px rgba(123,97,255,0.2), 0 0 18px rgba(0,234,255,0.08);
     }
     .glow {
-      text-shadow: 0 0 15px #7b61ff, 0 0 30px #00eaff;
+      text-shadow: 0 0 18px rgba(123,97,255,0.9), 0 0 40px rgba(0,234,255,0.25);
+    }
+    /* glass card */
+    .glass {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 30px rgba(11,10,20,0.6);
+      transition: transform .35s ease, box-shadow .35s ease;
+    }
+    .glass:hover{transform:translateY(-8px);box-shadow:0 18px 60px rgba(123,97,255,0.18)}
+    /* custom cursor */
+    .cursor {
+      position: fixed;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      pointer-events:none;
+      z-index:99999;
+      transform:translate(-50%,-50%);
+      transition: transform .12s ease, background .12s ease, width .12s ease, height .12s ease, box-shadow .12s ease;
+      mix-blend-mode: screen;
+      box-shadow:0 0 10px rgba(0,234,255,0.08), inset 0 0 6px rgba(123,97,255,0.08);
+      background: radial-gradient(circle at 30% 30%, rgba(123,97,255,0.9), rgba(0,234,255,0.6));
+    }
+    .cursor.big{width:54px;height:54px;opacity:.95;box-shadow:0 0 30px rgba(0,234,255,0.15)}
+    /* project link hover underline animation */
+    .link-ani{position:relative;color:#bcdcff}
+    .link-ani::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:linear-gradient(90deg,var(--neon1),var(--neon2));transition:width .28s ease}
+    .link-ani:hover::after{width:100%}
+    /* responsive tweaks */
+    @media (max-width:640px){
+      .hero-title{font-size:2.1rem}
+      .grid-cols-3{grid-template-columns:repeat(2, minmax(0,1fr))}
     }
   </style>
 </head>
 <body>
 
-<!-- Animated 3D Background -->
-<canvas id="bgCanvas"></canvas>
+<!-- THREE.JS CANVAS -->
+<canvas id="three-bg"></canvas>
 
-<!-- Content -->
-<div class="content">
+<!-- custom cursor -->
+<div id="cursor" class="cursor"></div>
+
+<!-- tsParticles container -->
+<div id="tsparticles" style="position:fixed;inset:0;z-index:1;pointer-events:none;"></div>
+
+<!-- SITE CONTENT -->
+<main class="site">
+
+  <!-- NAV -->
+  <nav class="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-12 h-12 flex items-center justify-center rounded-full" style="background:linear-gradient(135deg,var(--neon1),var(--neon2));box-shadow:0 6px 28px rgba(123,97,255,0.2)">
+        <span class="font-bold">AD</span>
+      </div>
+      <div>
+        <div class="text-sm text-gray-300">Abhishek Deshmukh</div>
+        <div class="text-xs text-gray-400">AI-Powered Web & App Developer</div>
+      </div>
+    </div>
+    <div class="hidden md:flex gap-4 items-center">
+      <a href="#projects" class="text-sm link-ani">Projects</a>
+      <a href="#about" class="text-sm link-ani">About</a>
+      <a href="#contact" class="text-sm link-ani">Contact</a>
+      <a href="https://github.com/midowwebcreater" target="_blank" class="ml-4 px-4 py-2 rounded-full text-sm" style="border:1px solid rgba(255,255,255,0.06)">GitHub</a>
+    </div>
+    <div class="md:hidden">
+      <a href="#contact" class="btn px-3 py-2 rounded-full text-xs" style="background:linear-gradient(90deg,var(--neon1),var(--neon2))">Hire</a>
+    </div>
+  </nav>
 
   <!-- HERO -->
-  <section class="min-h-screen flex flex-col items-center justify-center text-center px-6">
-    <h1 class="text-6xl font-bold glow animate__animated animate__fadeInDown">Abhishek Deshmukh</h1>
-    <p class="text-lg text-gray-400 mt-3 animate__animated animate__fadeInUp">AI-Powered Web & 3D Experience Creator</p>
-    <div class="flex gap-4 mt-8 animate__animated animate__fadeInUp animate__delay-1s">
-      <a href="#projects" class="btn">Explore Projects</a>
-      <a href="https://wa.me/8793727113" target="_blank" class="btn">Let's Talk</a>
+  <header class="min-h-[72vh] flex items-center max-w-6xl mx-auto px-6">
+    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <div>
+        <h1 class="hero-title text-5xl md:text-6xl font-extrabold neon glow">Abhishek Deshmukh</h1>
+        <p class="mt-4 text-gray-300 max-w-xl">
+          I build futuristic web experiences & AI-powered apps — interactive, performance-first, and visually striking. I use React, Tailwind, Flask, and lightweight AI integrations to ship product-grade websites.
+        </p>
+        <div class="mt-6 flex gap-4">
+          <a href="#projects" class="px-5 py-3 rounded-full" style="background:linear-gradient(90deg,var(--neon1),var(--neon2));box-shadow:0 12px 40px rgba(0,234,255,0.08)">Explore Projects</a>
+          <a href="https://wa.me/8793727113" target="_blank" class="px-5 py-3 rounded-full border border-white/10 text-sm">Let's Talk</a>
+        </div>
+
+        <!-- quick skills -->
+        <div class="mt-8 flex flex-wrap gap-3">
+          <span class="px-3 py-2 glass text-xs">React</span>
+          <span class="px-3 py-2 glass text-xs">Tailwind</span>
+          <span class="px-3 py-2 glass text-xs">Three.js</span>
+          <span class="px-3 py-2 glass text-xs">Flask</span>
+          <span class="px-3 py-2 glass text-xs">AI Integrations</span>
+        </div>
+      </div>
+
+      <!-- 3D card / preview -->
+      <div class="relative">
+        <div class="glass rounded-3xl p-6" style="min-height:260px;">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="text-xs text-gray-400">Live Preview</div>
+              <div class="text-lg font-bold mt-2">MidowWeb Creator</div>
+              <div class="text-sm text-gray-300 mt-1">Interactive website builder & portfolio demo</div>
+            </div>
+            <div class="text-xs text-gray-400">• Tech</div>
+          </div>
+
+          <div class="mt-6 grid grid-cols-2 gap-3">
+            <a href="https://gad-capital.in/#brickshare" target="_blank" class="block p-3 rounded-lg glass text-sm link-ani">GAD Capital</a>
+            <a href="https://v0-news-website-with-flask.vercel.app/" target="_blank" class="block p-3 rounded-lg glass text-sm link-ani">News (Flask)</a>
+            <a href="https://kedarnath-advertising.vercel.app/" target="_blank" class="block p-3 rounded-lg glass text-sm link-ani">Kedarnath Ads</a>
+            <a href="https://midowwebcreater.github.io/OWN-DRIVE/" target="_blank" class="block p-3 rounded-lg glass text-sm link-ani">OWN-DRIVE</a>
+          </div>
+
+        </div>
+
+        <!-- subtle 3D floating card -->
+        <div class="absolute -right-6 -bottom-8 w-44 h-44 rounded-2xl glass flex items-center justify-center" style="transform:rotate(-12deg);">
+          <div class="text-center text-xs">
+            <div class="font-semibold">AI Tools</div>
+            <div class="text-gray-300 text-[11px] mt-1">ChatGPT • OpenAI API • ML</div>
+          </div>
+        </div>
+      </div>
     </div>
-  </section>
+  </header>
 
   <!-- ABOUT -->
-  <section class="max-w-5xl mx-auto py-20 text-center px-6">
-    <h2 class="text-3xl font-semibold mb-6 glow">Who I Am</h2>
-    <p class="text-gray-400 leading-relaxed">
-      I’m an AI-driven web developer & designer who creates immersive, futuristic websites.
-      My focus is blending creativity and technology — delivering smooth, intelligent, and premium digital experiences.
-    </p>
+  <section id="about" class="max-w-6xl mx-auto px-6 py-20">
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <h2 class="text-3xl font-bold neon">About</h2>
+        <p class="mt-4 text-gray-300">I’m Abhishek — I combine web engineering with AI to create smart websites that solve real user needs. I like shipping lean features and polished animations. Currently open for freelance & full-time roles in Pune and remote.</p>
+        <ul class="mt-6 text-sm text-gray-300 space-y-2">
+          <li>• Building production web apps with React & Flask</li>
+          <li>• Integrating AI for chat, automation, and content generation</li>
+          <li>• Performance, accessibility & mobile-first design</li>
+        </ul>
+      </div>
+      <div>
+        <div class="glass p-6 rounded-2xl">
+          <div class="text-sm text-gray-400">Contact</div>
+          <div class="mt-3">
+            <div class="font-semibold">WhatsApp</div>
+            <a href="https://wa.me/8793727113" target="_blank" class="text-gray-200 link-ani">+91 87937 27113</a>
+            <div class="mt-3 font-semibold">LinkedIn</div>
+            <a href="https://www.linkedin.com/in/abhishek-deshmukh-706404375" target="_blank" class="text-gray-200 link-ani">/abhishek-deshmukh-706404375</a>
+            <div class="mt-3 font-semibold">GitHub</div>
+            <a href="https://github.com/midowwebcreater" target="_blank" class="text-gray-200 link-ani">/midowwebcreater</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- PROJECTS -->
   <section id="projects" class="max-w-6xl mx-auto px-6 py-20">
-    <h2 class="text-3xl font-semibold text-center mb-12 glow">Projects</h2>
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-      <div class="glass rounded-2xl p-6">
-        <h3 class="text-xl font-bold mb-2">GAD Capital</h3>
-        <p class="text-gray-400 text-sm mb-3">Smart investment platform for real-estate & agri sectors.</p>
-        <a href="https://gad-capital.in/#brickshare" target="_blank" class="text-indigo-400 hover:underline">Visit →</a>
+    <h3 class="text-3xl font-bold neon text-center">Selected Projects</h3>
+    <p class="text-center text-gray-400 mt-2">Live demos & small case studies — click to visit</p>
+
+    <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- card generator -->
+      <div class="glass p-6 rounded-2xl">
+        <div class="flex items-start justify-between">
+          <div>
+            <div class="text-xs text-gray-400">2024</div>
+            <a href="https://gad-capital.in/#brickshare" target="_blank" class="text-xl font-semibold mt-1 link-ani">GAD Capital — Smart Investments</a>
+            <p class="text-sm text-gray-300 mt-2">Landing page & lead system for investment products (BrickShare, AgriVenture).</p>
+          </div>
+          <div class="text-sm text-gray-400">React</div>
+        </div>
+        <div class="mt-4 flex gap-3">
+          <a href="https://gad-capital.in/#brickshare" target="_blank" class="px-3 py-2 rounded-md text-xs" style="background:linear-gradient(90deg,var(--neon1),var(--neon2))">Live</a>
+          <a class="px-3 py-2 rounded-md text-xs border border-white/6" href="https://gad-capital.in/#brickshare" target="_blank">Case</a>
+        </div>
       </div>
-      <div class="glass rounded-2xl p-6">
-        <h3 class="text-xl font-bold mb-2">Kedarnath Advertising</h3>
-        <p class="text-gray-400 text-sm mb-3">Creative marketing & advertising website with a futuristic UI.</p>
-        <a href="https://kedarnath-advertising.vercel.app/" target="_blank" class="text-indigo-400 hover:underline">Visit →</a>
+
+      <div class="glass p-6 rounded-2xl">
+        <div class="flex items-start justify-between">
+          <div>
+            <div class="text-xs text-gray-400">2024</div>
+            <a href="https://v0-news-website-with-flask.vercel.app/" target="_blank" class="text-xl font-semibold mt-1 link-ani">News Website with Flask</a>
+            <p class="text-sm text-gray-300 mt-2">Dynamic news aggregator built using Flask backend & templating; deployed to Vercel.</p>
+          </div>
+          <div class="text-sm text-gray-400">Flask</div>
+        </div>
+        <div class="mt-4 flex gap-3">
+          <a href="https://v0-news-website-with-flask.vercel.app/" target="_blank" class="px-3 py-2 rounded-md text-xs" style="background:linear-gradient(90deg,var(--neon1),var(--neon2))">Live</a>
+          <a class="px-3 py-2 rounded-md text-xs border border-white/6" href="https://v0-news-website-with-flask.vercel.app/" target="_blank">Case</a>
+        </div>
       </div>
-      <div class="glass rounded-2xl p-6">
-        <h3 class="text-xl font-bold mb-2">Dream-Wear Fashion</h3>
-        <p class="text-gray-400 text-sm mb-3">Futuristic fashion brand interface using modern design principles.</p>
-        <a href="https://streetaxog-tech.github.io/Dream-wear/" target="_blank" class="text-indigo-400 hover:underline">Visit →</a>
+
+      <div class="glass p-6 rounded-2xl">
+        <div class="flex items-start justify-between">
+          <div>
+            <div class="text-xs text-gray-400">2024</div>
+            <a href="https://kedarnath-advertising.vercel.app/" target="_blank" class="text-xl font-semibold mt-1 link-ani">Kedarnath Advertising</a>
+            <p class="text-sm text-gray-300 mt-2">Agency site featuring services, portfolio items and client prompts.</p>
+          </div>
+          <div class="text-sm text-gray-400">React</div>
+        </div>
+        <div class="mt-4 flex gap-3">
+          <a href="https://kedarnath-advertising.vercel.app/" target="_blank" class="px-3 py-2 rounded-md text-xs" style="background:linear-gradient(90deg,var(--neon1),var(--neon2))">Live</a>
+          <a class="px-3 py-2 rounded-md text-xs border border-white/6" href="https://kedarnath-advertising.vercel.app/" target="_blank">Case</a>
+        </div>
+      </div>
+
+      <div class="glass p-6 rounded-2xl">
+        <div class="flex items-start justify-between">
+          <div>
+            <div class="text-xs text-gray-400">2024</div>
+            <a href="https://midowwebcreater.github.io/OWN-DRIVE/" target="_blank" class="text-xl font-semibold mt-1 link-ani">OWN-DRIVE</a>
+            <p class="text-sm text-gray-300 mt-2">Drive UI mockup — file management UX & responsive layout demo.</p>
+          </div>
+          <div class="text-sm text-gray-400">HTML/CSS</div>
+        </div>
+        <div class="mt-4 flex gap-3">
+          <a href="https://midowwebcreater.github.io/OWN-DRIVE/" target="_blank" class="px-3 py-2 rounded-md text-xs" style="background:linear-gradient(90deg,var(--neon1),var(--neon2))">Live</a>
+          <a class="px-3 py-2 rounded-md text-xs border border-white/6" href="https://midowwebcreater.github.io/OWN-DRIVE/" target="_blank">Case</a>
+        </div>
+      </div>
+
+      <div class="glass p-6 rounded-2xl">
+        <div class="flex items-start justify-between">
+          <div>
+            <div class="text-xs text-gray-400">2024</div>
+            <a href="https://streetaxog-tech.github.io/indrashachi/#services" target="_blank" class="text-xl font-semibold mt-1 link-ani">IndraShachi Tech Services</a>
+            <p class="text-sm text-gray-300 mt-2">Services showcase & contact funnel for tech agency.</p>
+          </div>
+          <div class="text-sm text-gray-400">Frontend</div>
+        </div>
+        <div class="mt-4 flex gap-3">
+          <a href="https://streetaxog-tech.github.io/indrashachi/#services" target="_blank" class="px-3 py-2 rounded-md text-xs" style="background:linear-gradient(90deg,var(--neon1),var(--neon2))">Live</a>
+          <a class="px-3 py-2 rounded-md text-xs border border-white/6" href="https://streetaxog-tech.github.io/indrashachi/#services" target="_blank">Case</a>
+        </div>
+      </div>
+
+      <div class="glass p-6 rounded-2xl">
+        <div class="flex items-start justify-between">
+          <div>
+            <div class="text-xs text-gray-400">2024</div>
+            <a href="https://streetaxog-tech.github.io/Dream-wear/" target="_blank" class="text-xl font-semibold mt-1 link-ani">Dream-Wear Fashion</a>
+            <p class="text-sm text-gray-300 mt-2">E-commerce style frontend demo for fashion brand.</p>
+          </div>
+          <div class="text-sm text-gray-400">Frontend</div>
+        </div>
+        <div class="mt-4 flex gap-3">
+          <a href="https://streetaxog-tech.github.io/Dream-wear/" target="_blank" class="px-3 py-2 rounded-md text-xs" style="background:linear-gradient(90deg,var(--neon1),var(--neon2))">Live</a>
+          <a class="px-3 py-2 rounded-md text-xs border border-white/6" href="https://streetaxog-tech.github.io/Dream-wear/" target="_blank">Case</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="max-w-6xl mx-auto px-6 py-14">
+    <div class="glass p-8 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6">
+      <div>
+        <h4 class="text-xl font-bold glow">Ready to build something futuristic?</h4>
+        <p class="text-gray-300 mt-2">I help startups & small businesses ship AI-enabled websites and fast MVPs. Let’s talk scope & budget.</p>
+      </div>
+      <div class="flex gap-4">
+        <a href="mailto:hello@midowweb.com" class="px-5 py-3 rounded-full" style="background:linear-gradient(90deg,var(--neon1),var(--neon2))">Email Me</a>
+        <a href="https://wa.me/8793727113" target="_blank" class="px-5 py-3 rounded-full border border-white/8">WhatsApp</a>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT -->
-  <section id="contact" class="max-w-5xl mx-auto text-center py-20 px-6">
-    <h2 class="text-3xl font-semibold mb-6 glow">Let's Build the Future Together</h2>
-    <div class="flex justify-center gap-6 flex-wrap">
-      <a href="https://wa.me/8793727113" target="_blank" class="btn">WhatsApp</a>
-      <a href="https://linkedin.com/in/abhishek-deshmukh-706404375" target="_blank" class="btn">LinkedIn</a>
-      <a href="https://github.com/midowwebcreater" target="_blank" class="btn">GitHub</a>
+  <!-- FOOTER -->
+  <footer class="py-8 text-center text-gray-400">
+    <div class="max-w-4xl mx-auto px-6">
+      © 2025 Abhishek Deshmukh • AI-Powered Web & App Developer • <a href="https://github.com/midowwebcreater" target="_blank" class="link-ani">GitHub</a>
     </div>
-  </section>
-
-  <footer class="py-6 text-center text-gray-500 border-t border-gray-800">
-    © 2025 Abhishek Deshmukh — Designed with ⚡ AI + 3D
   </footer>
+</main>
 
-</div>
-
-<!-- 3D Animation Script -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<!-- SCRIPTS: 3D background + particles + cursor + parallax -->
 <script>
-  const canvas = document.getElementById('bgCanvas');
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+/* ---------- THREE.JS: rotating icosahedron + soft lights ---------- */
+(() => {
+  const canvas = document.getElementById('three-bg');
+  const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(window.innerWidth, window.innerHeight);
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-  camera.position.z = 5;
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+  camera.position.z = 6;
 
-  const geometry = new THREE.IcosahedronGeometry(2, 1);
-  const material = new THREE.MeshStandardMaterial({
-    color: 0x7b61ff,
-    metalness: 0.8,
-    roughness: 0.2,
-    emissive: 0x1a1a40,
-    emissiveIntensity: 0.6,
+  // geometry + material
+  const geo = new THREE.IcosahedronGeometry(2.2, 2);
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0xB98BFF,
+    roughness: 0.25,
+    metalness: 0.9,
+    emissive: 0x0c0c1a,
+    emissiveIntensity: .45,
+    // envMapIntensity: 1
   });
-  const mesh = new THREE.Mesh(geometry, material);
+  const mesh = new THREE.Mesh(geo, mat);
   scene.add(mesh);
 
-  const pointLight = new THREE.PointLight(0x00eaff, 1.5);
-  pointLight.position.set(5, 5, 5);
-  scene.add(pointLight);
-
-  const ambient = new THREE.AmbientLight(0xffffff, 0.3);
+  // soft lights
+  const light1 = new THREE.PointLight(0x00eaff, 1.6, 12);
+  light1.position.set(5,5,5);
+  scene.add(light1);
+  const light2 = new THREE.PointLight(0xff61b8, 0.7, 12);
+  light2.position.set(-5,-3,3);
+  scene.add(light2);
+  const ambient = new THREE.AmbientLight(0xffffff, 0.25);
   scene.add(ambient);
 
-  function animate() {
+  // subtle wireframe overlay
+  const wire = new THREE.MeshBasicMaterial({color:0x2b173f, wireframe:true, opacity:0.06, transparent:true});
+  const wireMesh = new THREE.Mesh(geo, wire);
+  wireMesh.scale.set(1.02,1.02,1.02);
+  scene.add(wireMesh);
+
+  // animation loop
+  let mouseX=0, mouseY=0;
+  window.addEventListener('mousemove', (e)=> {
+    mouseX = (e.clientX - window.innerWidth/2) * 0.002;
+    mouseY = (e.clientY - window.innerHeight/2) * 0.002;
+  });
+  function animate(){
     requestAnimationFrame(animate);
-    mesh.rotation.x += 0.005;
-    mesh.rotation.y += 0.006;
+    mesh.rotation.x += 0.006 + mouseY*0.02;
+    mesh.rotation.y += 0.008 + mouseX*0.03;
+    wireMesh.rotation.x = mesh.rotation.x * 1.02;
+    wireMesh.rotation.y = mesh.rotation.y * 1.02;
     renderer.render(scene, camera);
   }
   animate();
 
+  // responsiveness
   window.addEventListener('resize', () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
     camera.aspect = window.innerWidth/window.innerHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
   });
-</script>
+})();
 
-</body>
-</html>
+/* ---------- tsParticles: floating tech micro-particles ---------- */
+tsParticles.load("tsparticles", {
+  fpsLimit: 60,
+  background: { color: { value: "transparent" } },
+  particles: {
+    number: { value: 70, density: { enable: true, area: 800 } },
+    color: { value: ["#7b61ff","#00eaff","#ff61b8"] },
+    shape: { type: "circle" },
+    opacity: { value: 0.6 },
+    size: { value: { min: 1, max: 3 } },
+    move: { enable: true, speed: 0.9, direction: "none", outModes: { default: "out" } },
+    links: { enable: true, distance: 130, color: "#7b61ff", opacity: 0.06, width: 1 }
+  },
+  interactivity: { events: { onHover: { enable: true, mode: "repulse" }, onClick:{ enable:true, mode:"push" } } },
+  detectRetina: true
+});
+
+/* ---------- Custom cursor ---------- */
+(() => {
+  const cursor = document.getElementById('cursor');
+  let lastMove = {x:window.innerWidth/2,y:window.innerHeight/2};
+  document.addEventListener('mousemove', (e)=> {
+    lastMove = {x:e.clientX, y:e.clientY};
+    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+  });
+  // hover enlarge on interactive elements
+  const interactive = ['a','button','.glass','.btn','.link-ani'];
+  document.querySelectorAll(interactive.join(',')).forEach(el=>{
+    el.addEventListener('mouseenter', ()=> cursor.classList.add('big'));
+    el.addEventListener('mouseleave', ()=> cursor.classList.remove('big'));
+  });
+})();
+
+/* ---------- 
