@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abhishek Deshmukh | AI Web Creator</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <style>
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      background: radial-gradient(ellipse at bottom, #0d0d1b 0%, #000000 100%);
+      color: #e0e0e0;
+      font-family: 'Poppins', sans-serif;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+    .content {
+      position: relative;
+      z-index: 10;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 25px rgba(123,97,255,0.2);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .glass:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 0 40px rgba(123,97,255,0.6);
+    }
+    .btn {
+      background: linear-gradient(90deg,#7b61ff,#00eaff);
+      color: white;
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 9999px;
+      transition: all 0.3s ease;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #00eaff;
+    }
+    .glow {
+      text-shadow: 0 0 15px #7b61ff, 0 0 30px #00eaff;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Animated 3D Background -->
+<canvas id="bgCanvas"></canvas>
+
+<!-- Content -->
+<div class="content">
+
+  <!-- HERO -->
+  <section class="min-h-screen flex flex-col items-center justify-center text-center px-6">
+    <h1 class="text-6xl font-bold glow animate__animated animate__fadeInDown">Abhishek Deshmukh</h1>
+    <p class="text-lg text-gray-400 mt-3 animate__animated animate__fadeInUp">AI-Powered Web & 3D Experience Creator</p>
+    <div class="flex gap-4 mt-8 animate__animated animate__fadeInUp animate__delay-1s">
+      <a href="#projects" class="btn">Explore Projects</a>
+      <a href="https://wa.me/8793727113" target="_blank" class="btn">Let's Talk</a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="max-w-5xl mx-auto py-20 text-center px-6">
+    <h2 class="text-3xl font-semibold mb-6 glow">Who I Am</h2>
+    <p class="text-gray-400 leading-relaxed">
+      I’m an AI-driven web developer & designer who creates immersive, futuristic websites.
+      My focus is blending creativity and technology — delivering smooth, intelligent, and premium digital experiences.
+    </p>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="max-w-6xl mx-auto px-6 py-20">
+    <h2 class="text-3xl font-semibold text-center mb-12 glow">Projects</h2>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+      <div class="glass rounded-2xl p-6">
+        <h3 class="text-xl font-bold mb-2">GAD Capital</h3>
+        <p class="text-gray-400 text-sm mb-3">Smart investment platform for real-estate & agri sectors.</p>
+        <a href="https://gad-capital.in/#brickshare" target="_blank" class="text-indigo-400 hover:underline">Visit →</a>
+      </div>
+      <div class="glass rounded-2xl p-6">
+        <h3 class="text-xl font-bold mb-2">Kedarnath Advertising</h3>
+        <p class="text-gray-400 text-sm mb-3">Creative marketing & advertising website with a futuristic UI.</p>
+        <a href="https://kedarnath-advertising.vercel.app/" target="_blank" class="text-indigo-400 hover:underline">Visit →</a>
+      </div>
+      <div class="glass rounded-2xl p-6">
+        <h3 class="text-xl font-bold mb-2">Dream-Wear Fashion</h3>
+        <p class="text-gray-400 text-sm mb-3">Futuristic fashion brand interface using modern design principles.</p>
+        <a href="https://streetaxog-tech.github.io/Dream-wear/" target="_blank" class="text-indigo-400 hover:underline">Visit →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="max-w-5xl mx-auto text-center py-20 px-6">
+    <h2 class="text-3xl font-semibold mb-6 glow">Let's Build the Future Together</h2>
+    <div class="flex justify-center gap-6 flex-wrap">
+      <a href="https://wa.me/8793727113" target="_blank" class="btn">WhatsApp</a>
+      <a href="https://linkedin.com/in/abhishek-deshmukh-706404375" target="_blank" class="btn">LinkedIn</a>
+      <a href="https://github.com/midowwebcreater" target="_blank" class="btn">GitHub</a>
+    </div>
+  </section>
+
+  <footer class="py-6 text-center text-gray-500 border-t border-gray-800">
+    © 2025 Abhishek Deshmukh — Designed with ⚡ AI + 3D
+  </footer>
+
+</div>
+
+<!-- 3D Animation Script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script>
+  const canvas = document.getElementById('bgCanvas');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+  camera.position.z = 5;
+
+  const geometry = new THREE.IcosahedronGeometry(2, 1);
+  const material = new THREE.MeshStandardMaterial({
+    color: 0x7b61ff,
+    metalness: 0.8,
+    roughness: 0.2,
+    emissive: 0x1a1a40,
+    emissiveIntensity: 0.6,
+  });
+  const mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+
+  const pointLight = new THREE.PointLight(0x00eaff, 1.5);
+  pointLight.position.set(5, 5, 5);
+  scene.add(pointLight);
+
+  const ambient = new THREE.AmbientLight(0xffffff, 0.3);
+  scene.add(ambient);
+
+  function animate() {
+    requestAnimationFrame(animate);
+    mesh.rotation.x += 0.005;
+    mesh.rotation.y += 0.006;
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+</script>
+
+</body>
+</html>
