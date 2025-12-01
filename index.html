@@ -3,70 +3,56 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Midow AI Agency — Abhishek Deshmukh</title>
-  <meta name="description" content="Midow AI Agency — premium 3D agency: websites, 3D demos, marketing posters, AI automations. Contact: WhatsApp +91 87937 27113" />
-  <!-- Tailwind (CDN) -->
+  <title>MIDOW — Dark Futuristic AI Agency</title>
+  <meta name="description" content="MIDOW AI Agency — premium 3D demos, product marketing & AI integrations. Contact: +91 87937 27113" />
+
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Three.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <!-- tsParticles -->
   <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.7.1/tsparticles.min.js"></script>
 
-  <!-- Inline favicon SVG (replace with your real png/ico if you want) -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%237b61ff'/><text x='50' y='58' font-size='48' text-anchor='middle' fill='white' font-family='Arial' font-weight='700'>AD</text></svg>">
+  <!-- Inline favicon (replace with your real icon file if you want) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%23000a1a'/><circle cx='50' cy='40' r='26' fill='%237b61ff' opacity='0.95'/><text x='50' y='66' font-size='22' text-anchor='middle' fill='white' font-family='Inter' font-weight='700'>AD</text></svg>">
 
   <style>
+    /* Dark Futuristic theme (C) */
     :root{
-      --bg1:#020117; --bg2:#04031a; --neon1:#7b61ff; --neon2:#00eaff; --muted:#9aa3b2;
+      --bg1:#000814;      /* deep navy */
+      --bg2:#070621;      /* darker */
+      --neon1:#00ffd5;    /* aqua */
+      --neon2:#7b61ff;    /* purple */
+      --muted:#98a0b3;
     }
     html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
-    body{background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#e6eef8;overflow-x:hidden;}
-    #three-bg{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:screen;}
-    #tsparticles{position:fixed;inset:0;z-index:1;pointer-events:none;}
+    body{background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#e6eef8;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+    /* canvas + particles */
+    #three-bg{position:fixed;inset:0;z-index:0;pointer-events:none;mix-blend-mode:screen}
+    #tsparticles{position:fixed;inset:0;z-index:1;pointer-events:none}
     .site{position:relative;z-index:10}
-    .neon { color: #e9ecff; text-shadow: 0 0 8px rgba(123,97,255,0.15), 0 0 18px rgba(0,234,255,0.06); }
-    .glow { text-shadow: 0 0 18px rgba(123,97,255,0.9), 0 0 40px rgba(0,234,255,0.25); }
-    .glass {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border: 1px solid rgba(255,255,255,0.06);
-      backdrop-filter: blur(6px);
-      box-shadow: 0 10px 40px rgba(2,2,10,0.6);
-      transition: transform .28s ease, box-shadow .28s ease;
-    }
-    .glass:hover{transform:translateY(-8px);box-shadow:0 26px 90px rgba(123,97,255,0.12)}
-    .cursor {
-      position: fixed;
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      pointer-events:none;
-      z-index:99999;
-      transform:translate(-50%,-50%);
-      transition: transform .12s ease, width .12s ease, height .12s ease, box-shadow .12s ease;
-      mix-blend-mode: screen;
-      box-shadow:0 0 10px rgba(0,234,255,0.08), inset 0 0 6px rgba(123,97,255,0.08);
-      background: radial-gradient(circle at 30% 30%, rgba(123,97,255,0.9), rgba(0,234,255,0.6));
-    }
-    .cursor.big{width:48px;height:48px;opacity:.95;box-shadow:0 0 30px rgba(0,234,255,0.15)}
-    .link-ani{position:relative;color:#bcdcff}
-    .link-ani::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:linear-gradient(90deg,var(--neon1),var(--neon2));transition:width .28s ease}
-    .link-ani:hover::after{width:100%}
-    .tab-active { background: linear-gradient(90deg,var(--neon1),var(--neon2)); color: #041024; }
-    .modal-backdrop{position:fixed;inset:0;background:linear-gradient(90deg, rgba(8,8,12,0.85), rgba(2,2,6,0.95));display:flex;align-items:center;justify-content:center;z-index:60}
-    .modal-img{max-width:90vw;max-height:85vh;border-radius:12px;box-shadow:0 30px 80px rgba(2,2,10,0.8)}
-    @media (max-width:640px){
-      .hero-title{font-size:2.2rem}
-      .grid-cols-3{grid-template-columns:repeat(2, minmax(0,1fr))}
-    }
+    /* visual styles */
+    .neon{color:#e9ecff;text-shadow:0 0 12px rgba(123,97,255,0.06)}
+    .glow{ text-shadow:0 0 22px rgba(0,255,213,0.08), 0 0 40px rgba(123,97,255,0.12) }
+    .glass{ background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.04); backdrop-filter: blur(8px); box-shadow: 0 18px 60px rgba(0,0,0,0.6); transition: transform .28s ease, box-shadow .28s ease; }
+    .glass:hover{ transform: translateY(-8px); box-shadow: 0 36px 120px rgba(123,97,255,0.08); }
+    .link-ani{ position:relative; color:#bfeee6; }
+    .link-ani::after{ content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background: linear-gradient(90deg,var(--neon1),var(--neon2)); transition: width .28s ease; }
+    .link-ani:hover::after{ width:100%; }
+    /* cursor */
+    .cursor{ position:fixed; width:18px; height:18px; border-radius:999px; pointer-events:none; z-index:99999; transform:translate(-50%,-50%); transition:transform .12s ease,width .12s ease,height .12s ease,box-shadow .12s ease; mix-blend-mode:screen; background: radial-gradient(circle at 30% 30%, rgba(0,255,213,0.95), rgba(123,97,255,0.6)); box-shadow:0 0 12px rgba(0,255,213,0.07), inset 0 0 6px rgba(123,97,255,0.06); }
+    .cursor.big{ width:56px; height:56px; opacity:.95; box-shadow:0 0 40px rgba(0,255,213,0.12); }
+    /* modal */
+    .modal-backdrop{ position:fixed; inset:0; background: linear-gradient(90deg, rgba(2,6,10,0.9), rgba(0,0,0,0.95)); display:flex; align-items:center; justify-content:center; z-index:70; padding:20px; }
+    .modal-img{ max-width:96vw; max-height:88vh; border-radius:12px; box-shadow:0 30px 80px rgba(0,0,0,0.8); }
+    /* responsive tweaks */
+    @media (max-width:640px){ .hero-title{ font-size:2.1rem } .grid-cols-3{ grid-template-columns:repeat(2,minmax(0,1fr)) } }
   </style>
 </head>
 <body>
-
-  <!-- 3D background canvas -->
+  <!-- Visual layers -->
   <canvas id="three-bg" aria-hidden="true"></canvas>
-  <!-- Particles -->
   <div id="tsparticles" aria-hidden="true"></div>
-  <!-- Custom cursor -->
   <div id="cursor" class="cursor" aria-hidden="true"></div>
 
   <main class="site">
@@ -74,22 +60,21 @@
     <!-- NAV -->
     <nav class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-12 h-12 flex items-center justify-center rounded-full" style="background:linear-gradient(135deg,var(--neon1),var(--neon2));box-shadow:0 6px 28px rgba(123,97,255,0.22)">
-          <!-- Replace this inline svg with your logo file (png/svg) -->
-          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Ctext x='50%' y='58%' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='14' fill='white'%3EMidow%3C/text%3E%3C/svg%3E" alt="Midow logo">
+        <div class="w-12 h-12 flex items-center justify-center rounded-full" style="background:linear-gradient(135deg,var(--neon2),var(--neon1));box-shadow:0 10px 36px rgba(123,97,255,0.18);">
+          <!-- replace with SVG/PNG logo if you have -->
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Ccircle cx='18' cy='14' r='12' fill='%2300ffd5' opacity='0.95'/%3E%3Ctext x='50%' y='75%' text-anchor='middle' font-size='10' fill='black' font-family='Inter'%3EMidow%3C/text%3E%3C/svg%3E" alt="Midow logo"/>
         </div>
         <div>
-          <div class="text-sm text-gray-300">Midow AI Agency</div>
+          <div class="text-sm text-gray-300">MIDOW AI AGENCY</div>
           <div class="text-xs text-gray-400">Abhishek Deshmukh — Web & AI</div>
         </div>
       </div>
 
       <div class="hidden md:flex gap-6 items-center">
-        <a href="#projects" class="text-sm link-ani">Demos</a>
+        <a href="#projects" class="text-sm link-ani">Portfolio</a>
+        <a href="#marketing" class="text-sm link-ani">Marketing</a>
         <a href="#services" class="text-sm link-ani">Services</a>
-        <a href="#why" class="text-sm link-ani">Why Us</a>
         <a href="#contact" class="text-sm link-ani">Contact</a>
-        <a href="https://github.com/midowwebcreater" target="_blank" class="ml-4 px-4 py-2 rounded-full text-sm glass">GitHub</a>
       </div>
 
       <div class="md:hidden">
@@ -101,311 +86,438 @@
     <header class="min-h-[72vh] flex items-center max-w-7xl mx-auto px-6">
       <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div>
-          <h1 class="hero-title text-5xl md:text-6xl font-extrabold neon glow">Premium 3D & AI Product Demos</h1>
-          <p class="mt-4 text-gray-300 max-w-xl leading-relaxed">
-            We build conversion-first websites, interactive 3D product showcases and marketing posters/videos — tailored for scale.
-            Send product images and get a free demo poster/video for new clients.
-          </p>
+          <h1 class="hero-title text-4xl md:text-5xl font-extrabold neon glow">Dark Futuristic 3D Demos & Product Marketing</h1>
+          <p class="mt-4 text-gray-300 max-w-xl leading-relaxed">We create conversion-first websites, animated 3D product showcases, and high-impact marketing videos. Upload product photos or short clips — get a premium mockup/demo.</p>
           <div class="mt-6 flex gap-4">
-            <a href="#projects" class="px-5 py-3 rounded-full" style="background:linear-gradient(90deg,var(--neon1),var(--neon2));box-shadow:0 12px 40px rgba(0,234,255,0.08)">View Demos</a>
-            <a href="https://wa.me/8793727113" target="_blank" class="px-5 py-3 rounded-full border border-white/10 text-sm">WhatsApp</a>
+            <a href="#projects" class="px-5 py-3 rounded-full" style="background:linear-gradient(90deg,var(--neon1),var(--neon2));box-shadow:0 12px 40px rgba(0,255,213,0.06)">View Portfolio</a>
+            <a href="#marketing" class="px-5 py-3 rounded-full border border-white/10 text-sm">Product Marketing</a>
           </div>
 
           <div class="mt-8 flex flex-wrap gap-3">
             <span class="px-3 py-2 glass text-xs">React</span>
             <span class="px-3 py-2 glass text-xs">Three.js</span>
             <span class="px-3 py-2 glass text-xs">Tailwind</span>
-            <span class="px-3 py-2 glass text-xs">Flask</span>
             <span class="px-3 py-2 glass text-xs">OpenAI</span>
           </div>
         </div>
 
-        <!-- 3D card -->
         <div>
           <div class="glass rounded-3xl p-6 relative" style="min-height:300px;">
             <div class="flex items-start justify-between">
               <div>
                 <div class="text-xs text-gray-400">Featured</div>
-                <div class="text-lg font-bold mt-1">3D Product Showcase</div>
-                <div class="text-sm text-gray-300 mt-1">Interactive GLTF / animated mockups</div>
+                <div class="text-lg font-bold mt-1">3D Gradient Shapes</div>
+                <div class="text-sm text-gray-300 mt-1">Floating objects • soft neon lighting</div>
               </div>
-              <div class="text-xs text-gray-400">Tech • Three.js</div>
+              <div class="text-xs text-gray-400">• Three.js</div>
             </div>
 
             <div class="mt-6 grid grid-cols-2 gap-3">
-              <a href="#projects" class="block p-3 rounded-lg glass text-sm link-ani">Live Demos</a>
-              <a href="#contact" class="block p-3 rounded-lg glass text-sm link-ani">Get Free Demo</a>
-              <a href="#" class="block p-3 rounded-lg glass text-sm link-ani">Ad Creatives</a>
-              <a href="#" class="block p-3 rounded-lg glass text-sm link-ani">Automation</a>
+              <a href="#projects" class="block p-3 rounded-lg glass text-sm link-ani">Portfolio</a>
+              <a href="#marketing" class="block p-3 rounded-lg glass text-sm link-ani">Add Demo</a>
+              <a href="#services" class="block p-3 rounded-lg glass text-sm link-ani">Services</a>
+              <a href="#contact" class="block p-3 rounded-lg glass text-sm link-ani">Contact</a>
             </div>
 
             <div class="absolute -right-8 -bottom-10 w-44 h-44 rounded-2xl glass flex items-center justify-center transform -rotate-12">
               <div class="text-center text-xs">
                 <div class="font-semibold">AI Tools</div>
-                <div class="text-gray-300 text-[11px] mt-1">ChatGPT • OpenAI • Custom ML</div>
+                <div class="text-gray-300 text-[11px] mt-1">ChatGPT • OpenAI • ML</div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
     </header>
 
     <!-- SERVICES -->
-    <section id="services" class="max-w-7xl mx-auto px-6 py-12">
+    <section id="services" class="max-w-7xl mx-auto px-6 py-8">
       <h2 class="text-3xl font-bold neon text-center">Services</h2>
-      <p class="text-center text-gray-400 mt-2 max-w-2xl mx-auto">End-to-end: Strategy → Design → 3D demos → Deploy → Automations</p>
+      <p class="text-center text-gray-400 mt-2 max-w-2xl mx-auto">Design → 3D demos → Marketing creatives → Deploy → Automation</p>
 
       <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="glass p-6 rounded-2xl">
-          <div class="text-sm text-gray-400">Web • Frontend</div>
-          <h3 class="mt-2 font-semibold">Premium Websites</h3>
-          <p class="text-gray-300 mt-2 text-sm">SEO-ready landing pages, e-commerce frontends, analytics & tracking setup.</p>
+          <h3 class="font-semibold">Premium Websites</h3>
+          <p class="text-gray-300 text-sm mt-2">Landing pages, e-commerce & analytics.</p>
         </div>
         <div class="glass p-6 rounded-2xl">
-          <div class="text-sm text-gray-400">3D • Visuals</div>
-          <h3 class="mt-2 font-semibold">3D Product Demos</h3>
-          <p class="text-gray-300 mt-2 text-sm">Interactive GLTF viewers, animated product mockups for ads and landing pages.</p>
+          <h3 class="font-semibold">3D Product Demos</h3>
+          <p class="text-gray-300 text-sm mt-2">GLTF viewers, animated mockups.</p>
         </div>
         <div class="glass p-6 rounded-2xl">
-          <div class="text-sm text-gray-400">AI • Automation</div>
-          <h3 class="mt-2 font-semibold">AI Integrations</h3>
-          <p class="text-gray-300 mt-2 text-sm">Chatbots, automated content pipelines, AI-powered personalization (connect later).</p>
+          <h3 class="font-semibold">AI Integrations</h3>
+          <p class="text-gray-300 text-sm mt-2">Chatbots, automation & personalization.</p>
         </div>
       </div>
     </section>
 
-    <!-- WHY US -->
-    <section id="why" class="max-w-7xl mx-auto px-6 py-10">
-      <div class="grid md:grid-cols-3 gap-6">
-        <div class="glass p-6 rounded-2xl">
-          <h4 class="font-semibold">Speed</h4>
-          <p class="text-gray-300 mt-2 text-sm">Fast MVPs & A/B ready landing pages.</p>
-        </div>
-        <div class="glass p-6 rounded-2xl">
-          <h4 class="font-semibold">Quality</h4>
-          <p class="text-gray-300 mt-2 text-sm">Pixel-perfect UI & polished 3D visuals.</p>
-        </div>
-        <div class="glass p-6 rounded-2xl">
-          <h4 class="font-semibold">Scalable</h4>
-          <p class="text-gray-300 mt-2 text-sm">Design systems, modular code & automation-ready architecture.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- PRODUCTS / UNLIMITED GALLERY -->
-    <section id="projects" class="max-w-7xl mx-auto px-6 py-12">
+    <!-- PORTFOLIO -->
+    <section id="projects" class="max-w-7xl mx-auto px-6 py-10">
       <div class="flex items-center justify-between">
         <div>
-          <h3 class="text-3xl font-bold neon">Product Demos</h3>
-          <p class="text-gray-400 mt-1">Categorized gallery — add images by uploading + editing the JS data array.</p>
+          <h3 class="text-3xl font-bold neon">Portfolio — Selected Projects</h3>
+          <p class="text-gray-400 mt-1">Click a card to open the live project (opens in a new tab).</p>
         </div>
-        <div class="text-sm text-gray-400">Tip: upload images to <code>assets/images/{category}/</code></div>
+        <div class="text-sm text-gray-400">Tip: add thumbnails to assets/projects/&lt;slug&gt;.jpg</div>
       </div>
 
-      <!-- Category Tabs (rendered by JS) -->
-      <div id="categoryTabs" class="mt-6 flex gap-3 overflow-x-auto"></div>
-
-      <!-- Gallery Grid -->
-      <div id="galleryGrid" class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-
-      <!-- Lightbox modal -->
-      <div id="galleryModal" class="hidden fixed inset-0 items-center justify-center z-60">
-        <div class="modal-backdrop" role="dialog" aria-modal="true">
-          <button id="closeModal" class="absolute top-6 right-6 text-white/80 px-3 py-2 rounded-md glass">Close</button>
-          <img id="modalImg" src="" alt="" class="modal-img" />
-          <div id="modalCaption" class="text-center text-gray-300 mt-4"></div>
-        </div>
+      <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- card 1 -->
+    <div class="glass p-4 rounded-2xl">
+      <img src="assets/projects/midow-tiffin.jpg" alt="MIDOW Tiffin" class="w-full h-44 object-cover rounded-lg" loading="lazy"/>
+      <div class="mt-3">
+        <div class="text-xs text-gray-400">Food</div>
+        <a href="https://midowwebcreater.github.io/MIDOW-TIFFIN-SERVICES-/" target="_blank" class="font-semibold link-ani">MIDOW Tiffin Services</a>
+        <p class="text-sm text-gray-300 mt-2">Menu & ordering landing page.</p>
       </div>
-    </section>
+    </div>
 
-    <!-- TESTIMONIALS -->
-    <section id="testimonials" class="max-w-7xl mx-auto px-6 py-10">
-      <h3 class="text-3xl font-bold neon text-center">Clients & Results</h3>
-      <div class="mt-6 grid md:grid-cols-3 gap-6">
-        <div class="glass p-6 rounded-2xl">
-          <p class="text-gray-300">"Demo creatives increased CTR by 2.3x — excellent delivery."</p>
-          <div class="mt-4 text-xs text-gray-400">— Rohit, Gad Capital</div>
-        </div>
-        <div class="glass p-6 rounded-2xl">
-          <p class="text-gray-300">"Delivered AI automation prototype in 4 weeks."</p>
-          <div class="mt-4 text-xs text-gray-400">— Priya M.</div>
-        </div>
-        <div class="glass p-6 rounded-2xl">
-          <p class="text-gray-300">"Premium look and fast iterations. Highly recommended."</p>
-          <div class="mt-4 text-xs text-gray-400">— Kedar</div>
-        </div>
+    <!-- card 2 -->
+    <div class="glass p-4 rounded-2xl">
+      <img src="assets/projects/ankita-designer.jpg" alt="Ankita Designer" class="w-full h-44 object-cover rounded-lg" loading="lazy"/>
+      <div class="mt-3">
+        <div class="text-xs text-gray-400">Design</div>
+        <a href="https://midowwebcreater.github.io/ANKITA-DESIGNER-/" target="_blank" class="font-semibold link-ani">Ankita Designer</a>
+        <p class="text-sm text-gray-300 mt-2">Portfolio & creative services.</p>
       </div>
-    </section>
+    </div>
 
-    <!-- CTA -->
-    <section class="max-w-7xl mx-auto px-6 py-12">
-      <div class="glass p-8 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6">
-        <div>
-          <h4 class="text-xl font-bold glow">Free demo poster/video for first-time clients</h4>
-          <p class="text-gray-300 mt-2">Send product images and basic brief — I'll return a premium mockup/demo.</p>
-        </div>
-        <div class="flex gap-4">
-          <a href="mailto:hello@midowweb.com" class="px-5 py-3 rounded-full" style="background:linear-gradient(90deg,var(--neon1),var(--neon2))">Email Me</a>
-          <a href="https://wa.me/8793727113" target="_blank" class="px-5 py-3 rounded-full border border-white/8">WhatsApp</a>
-        </div>
+    <!-- card 3 -->
+    <div class="glass p-4 rounded-2xl">
+      <img src="assets/projects/midow-vercel.jpg" alt="Midow Vercel" class="w-full h-44 object-cover rounded-lg" loading="lazy"/>
+      <div class="mt-3">
+        <div class="text-xs text-gray-400">Agency</div>
+        <a href="https://midoww-web-creater.vercel.app/" target="_blank" class="font-semibold link-ani">MidowWebCreater (Vercel)</a>
+        <p class="text-sm text-gray-300 mt-2">Agency site / demo.</p>
       </div>
-    </section>
+    </div>
 
-    <!-- CONTACT -->
-    <section id="contact" class="max-w-7xl mx-auto px-6 py-12">
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="glass p-6 rounded-2xl">
-          <h3 class="text-xl font-semibold">Contact</h3>
-          <p class="text-gray-300 mt-2">Open for freelance & full-time. Send product images & brief to WhatsApp or email.</p>
-          <div class="mt-4">
-            <div class="font-semibold">WhatsApp</div>
-            <a href="https://wa.me/8793727113" target="_blank" class="text-gray-200 link-ani">+91 87937 27113</a>
-            <div class="mt-3 font-semibold">Email</div>
-            <a href="mailto:hello@midowweb.com" class="text-gray-200 link-ani">hello@midowweb.com</a>
-          </div>
-        </div>
-
-        <form id="contactForm" class="glass p-6 rounded-2xl" onsubmit="event.preventDefault(); alert('Thanks — I will reply on WhatsApp/Email.');">
-          <label class="text-sm">Your name</label>
-          <input class="w-full mt-2 p-3 rounded-md bg-transparent border border-white/6" placeholder="Name" required />
-          <label class="text-sm mt-4">Email</label>
-          <input type="email" class="w-full mt-2 p-3 rounded-md bg-transparent border border-white/6" placeholder="you@example.com" required />
-          <label class="text-sm mt-4">Message</label>
-          <textarea class="w-full mt-2 p-3 rounded-md bg-transparent border border-white/6" rows="4" placeholder="Project brief, links, images..."></textarea>
-          <div class="mt-4 flex gap-3">
-            <button type="submit" class="px-4 py-2 rounded-full" style="background:linear-gradient(90deg,var(--neon1),var(--neon2))">Send</button>
-            <a href="https://wa.me/8793727113" target="_blank" class="px-4 py-2 rounded-full border border-white/8">Chat on WhatsApp</a>
-          </div>
-        </form>
+    <!-- card 4 -->
+    <div class="glass p-4 rounded-2xl">
+      <img src="assets/projects/3art-digital.jpg" alt="3Art Digital" class="w-full h-44 object-cover rounded-lg" loading="lazy"/>
+      <div class="mt-3">
+        <div class="text-xs text-gray-400">Photography</div>
+        <a href="https://streetaxog-tech.github.io/3art-digital-/" target="_blank" class="font-semibold link-ani">3Art Digital</a>
+        <p class="text-sm text-gray-300 mt-2">Photo & video services.</p>
       </div>
-    </section>
+    </div>
 
-    <!-- FOOTER -->
-    <footer class="py-8 text-center text-gray-400">
-      <div class="max-w-4xl mx-auto px-6">
-        © <span id="year"></span> Midow AI Agency — Abhishek Deshmukh • <a href="https://github.com/midowwebcreater" target="_blank" class="link-ani">GitHub</a>
+    <!-- card 5 -->
+    <div class="glass p-4 rounded-2xl">
+      <img src="assets/projects/kedarnath.jpg" alt="Kedarnath Advertising" class="w-full h-44 object-cover rounded-lg" loading="lazy"/>
+      <div class="mt-3">
+        <div class="text-xs text-gray-400">Agency</div>
+        <a href="https://streetaxog-tech.github.io/kedarnath-advertising-/" target="_blank" class="font-semibold link-ani">Kedarnath Advertising</a>
+        <p class="text-sm text-gray-300 mt-2">Ad creatives & portfolio.</p>
       </div>
-    </footer>
+    </div>
 
-  </main>
+    <!-- card 6 -->
+    <div class="glass p-4 rounded-2xl">
+      <img src="assets/projects/indrashachi.jpg" alt="Indrashachi" class="w-full h-44 object-cover rounded-lg" loading="lazy"/>
+      <div class="mt-3">
+        <div class="text-xs text-gray-400">Consulting</div>
+        <a href="https://streetaxog-tech.github.io/indrashachi/" target="_blank" class="font-semibold link-ani">Indrashachi</a>
+        <p class="text-sm text-gray-300 mt-2">Service & booking page.</p>
+      </div>
+    </div>
 
-  <!-- SCRIPTS -->
-  <script>
-  // ============ SITE SETTINGS & DATA ============
-  // Add / edit categories & products here.
-  // For each product set: { id, title, image, tag, link(optional) }
-  // Image path convention: assets/images/<category-slug>/<filename.ext>
-  const GALLERY_DATA = [
-    {
-      name: "SkinCare",
-      slug: "skincare",
-      items: [
-        { id: "s1", title: "Radiant Facewash — Demo", image: "assets/images/skincare/demo1.jpg", tag: "SkinCare", link: "#" },
-        { id: "s2", title: "Premium Serum — Mockup", image: "assets/images/skincare/demo2.jpg", tag: "SkinCare", link: "#" }
-      ]
-    },
-    {
-      name: "Fashion",
-      slug: "fashion",
-      items: [
-        { id: "f1", title: "Dream-Wear Tee", image: "assets/images/fashion/demo1.jpg", tag: "Fashion", link: "#" },
-        { id: "f2", title: "Stylish Jacket", image: "assets/images/fashion/demo2.jpg", tag: "Fashion", link: "#" }
-      ]
-    },
-    {
-      name: "Electronics",
-      slug: "electronics",
-      items: [
-        { id: "e1", title: "SmartWatch X", image: "assets/images/electronics/demo1.jpg", tag: "Electronics", link: "#" }
-      ]
-    }
-  ];
+    <!-- card 7 -->
+    <div class="glass p-4 rounded-2xl">
+      <img src="assets/projects/deeplight.jpg" alt="Deeplight Restaurant" class="w-full h-44 object-cover rounded-lg" loading="lazy"/>
+      <div class="mt-3">
+        <div class="text-xs text-gray-400">Restaurant</div>
+        <a href="https://midowwebcreater.github.io/DEEPLIGHT-premium-RESTAURANT/" target="_blank" class="font-semibold link-ani">DEEPLIGHT Restaurant</a>
+        <p class="text-sm text-gray-300 mt-2">Premium restaurant demo.</p>
+      </div>
+    </div>
 
-  // ============ RENDER GALLERY ============
-  function createCategoryTabs(data) {
-    const tabs = document.getElementById('categoryTabs');
-    tabs.innerHTML = '';
-    data.forEach((cat, i) => {
-      const btn = document.createElement('button');
-      btn.className = 'px-4 py-2 rounded-full text-sm glass';
-      btn.innerText = cat.name + ` (${cat.items.length})`;
-      btn.dataset.slug = cat.slug;
-      if (i === 0) btn.classList.add('tab-active');
-      btn.addEventListener('click', () => {
-        // toggle active style
-        document.querySelectorAll('#categoryTabs button').forEach(b=>b.classList.remove('tab-active'));
-        btn.classList.add('tab-active');
-        renderGallery(cat.slug);
-        // scroll to gallery on mobile
-        document.getElementById('galleryGrid').scrollIntoView({behavior:'smooth',block:'start'});
-      });
-      tabs.appendChild(btn);
-    });
+    <!-- card 8 -->
+    <div class="glass p-4 rounded-2xl">
+      <img src="assets/projects/own-drive.jpg" alt="Own Drive" class="w-full h-44 object-cover rounded-lg" loading="lazy"/>
+      <div class="mt-3">
+        <div class="text-xs text-gray-400">UI Demo</div>
+        <a href="https://midowwebcreater.github.io/OWN-DRIVE/" target="_blank" class="font-semibold link-ani">OWN-DRIVE</a>
+        <p class="text-sm text-gray-300 mt-2">Drive UI mockup.</p>
+      </div>
+    </div>
+
+    <!-- card 9 -->
+    <div class="glass p-4 rounded-2xl">
+      <img src="assets/projects/gad-capital.jpg" alt="GAD Capital" class="w-full h-44 object-cover rounded-lg" loading="lazy"/>
+      <div class="mt-3">
+        <div class="text-xs text-gray-400">Finance</div>
+        <a href="https://gad-capital.in/" target="_blank" class="font-semibold link-ani">GAD Capital</a>
+        <p class="text-sm text-gray-300 mt-2">Landing page & lead system.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PRODUCT MARKETING -->
+<section id="marketing" class="max-w-7xl mx-auto px-6 py-10">
+  <div class="flex items-center justify-between">
+    <div>
+      <h3 class="text-3xl font-bold neon">Product Marketing — Images & Videos</h3>
+      <p class="text-gray-400 mt-1">Upload product images or short videos. Click to view larger / play.</p>
+    </div>
+    <div class="text-sm text-gray-400">Tip: upload to assets/marketing/&lt;category&gt;/</div>
+  </div>
+
+  <div id="marketingTabs" class="mt-5 flex gap-3 overflow-x-auto"></div>
+  <div id="marketingGrid" class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+  <!-- marketing modal -->
+  <div id="marketingModal" class="hidden fixed inset-0 items-center justify-center z-80">
+    <div class="modal-backdrop">
+      <button id="closeMarketingModal" class="absolute top-6 right-6 text-white/80 px-3 py-2 rounded-md glass">Close</button>
+      <div id="marketingContent" class="video-wrap"></div>
+      <div id="marketingCaption" class="text-center text-gray-300 mt-4"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="max-w-7xl mx-auto px-6 py-10">
+  <div class="glass p-8 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6">
+    <div>
+      <h4 class="text-xl font-bold glow">Free demo poster/video for new clients</h4>
+      <p class="text-gray-300 mt-2">Send product images & a short brief — I’ll return a premium mockup.</p>
+    </div>
+    <div class="flex gap-4">
+      <a href="mailto:hello@midowweb.com" class="px-5 py-3 rounded-full" style="background:linear-gradient(90deg,var(--neon1),var(--neon2))">Email Me</a>
+      <a href="https://wa.me/8793727113" target="_blank" class="px-5 py-3 rounded-full border border-white/8">WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="max-w-7xl mx-auto px-6 py-10">
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="glass p-6 rounded-2xl">
+      <h3 class="text-xl font-semibold">Contact</h3>
+      <p class="text-gray-300 mt-2">Open for freelance & full-time. Send product images & brief to WhatsApp or email.</p>
+      <div class="mt-4">
+        <div class="font-semibold">WhatsApp</div>
+        <a href="https://wa.me/8793727113" class="text-gray-200 link-ani">+91 87937 27113</a>
+        <div class="mt-3 font-semibold">Email</div>
+        <a href="mailto:hello@midowweb.com" class="text-gray-200 link-ani">hello@midowweb.com</a>
+      </div>
+    </div>
+
+    <form id="contactForm" class="glass p-6 rounded-2xl" onsubmit="event.preventDefault(); alert('Thanks — I will reply on WhatsApp/Email.');">
+      <label class="text-sm">Your name</label>
+      <input class="w-full mt-2 p-3 rounded-md bg-transparent border border-white/6" placeholder="Name" required />
+      <label class="text-sm mt-4">Email</label>
+      <input type="email" class="w-full mt-2 p-3 rounded-md bg-transparent border border-white/6" placeholder="you@example.com" required />
+      <label class="text-sm mt-4">Message</label>
+      <textarea class="w-full mt-2 p-3 rounded-md bg-transparent border border-white/6" rows="4" placeholder="Project brief, links, images..."></textarea>
+      <div class="mt-4 flex gap-3">
+        <button type="submit" class="px-4 py-2 rounded-full" style="background:linear-gradient(90deg,var(--neon1),var(--neon2))">Send</button>
+        <a href="https://wa.me/8793727113" target="_blank" class="px-4 py-2 rounded-full border border-white/8">Chat on WhatsApp</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-8 text-center text-gray-400">
+  <div class="max-w-4xl mx-auto px-6">
+    © <span id="year"></span> MIDOW AI AGENCY — Abhishek Deshmukh • <a href="https://github.com/midowwebcreater" target="_blank" class="link-ani">GitHub</a>
+  </div>
+</footer>
+
+</main>
+
+<!-- SCRIPTS: data, 3D, particles, cursor, marketing modal -->
+<script>
+/* ------------------------
+   DATA: marketing assets (edit paths after uploading)
+   ------------------------ */
+const PRODUCT_MARKETING_DATA = [
+  { name:"Posters", slug:"posters", items:[
+      { id:"p1", type:"image", src:"assets/marketing/posters/1.jpg", title:"SkinCare Poster" },
+      { id:"p2", type:"image", src:"assets/marketing/posters/2.jpg", title:"Fashion Poster" }
+    ]
+  },
+  { name:"Videos", slug:"videos", items:[
+      { id:"v1", type:"video", src:"assets/marketing/videos/1.mp4", title:"Product Promo 1" }
+    ]
   }
+];
 
-  function renderGallery(activeSlug) {
-    const grid = document.getElementById('galleryGrid');
-    grid.innerHTML = '';
-    const cat = GALLERY_DATA.find(c=>c.slug === activeSlug) || GALLERY_DATA[0];
-    if (!cat || !cat.items.length) {
-      grid.innerHTML = '<div class="glass p-6 rounded-2xl">No demos yet. Add products to GALLERY_DATA array.</div>';
-      return;
-    }
-    cat.items.forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'glass p-4 rounded-2xl';
-      card.innerHTML = `
-        <button class="w-full text-left gallery-card" data-src="${item.image}" data-title="${item.title}" style="background:transparent;border:none;cursor:pointer">
-          <img loading="lazy" src="${item.image}" alt="${item.title}" class="w-full h-44 object-cover rounded-lg" />
-          <div class="mt-3">
-            <div class="text-xs text-gray-400"> ${item.tag} </div>
-            <div class="font-semibold link-ani">${item.title}</div>
-            <p class="text-sm text-gray-300 mt-2">Click to view larger</p>
-          </div>
-        </button>`;
-      grid.appendChild(card);
-    });
+/* ------------------------
+   RENDER marketing tabs + grid
+   ------------------------ */
+const tabsBox = document.getElementById('marketingTabs');
+const gridBox = document.getElementById('marketingGrid');
+const modal = document.getElementById('marketingModal');
+const modalContent = document.getElementById('marketingContent');
+const modalCaption = document.getElementById('marketingCaption');
+
+function createMarketingTabs(data){
+  tabsBox.innerHTML = '';
+  data.forEach((cat,i)=>{
+    const b = document.createElement('button');
+    b.className = 'glass px-4 py-2 rounded-full text-sm';
+    b.innerText = `${cat.name} (${cat.items.length})`;
+    b.dataset.slug = cat.slug;
+    if(i===0) b.classList.add('tab-active');
+    b.onclick = ()=>{ document.querySelectorAll('#marketingTabs button').forEach(x=>x.classList.remove('tab-active')); b.classList.add('tab-active'); renderMarketing(cat.slug); };
+    tabsBox.appendChild(b);
+  });
+}
+
+function renderMarketing(slug){
+  gridBox.innerHTML = '';
+  const cat = PRODUCT_MARKETING_DATA.find(c=>c.slug===slug) || PRODUCT_MARKETING_DATA[0];
+  if(!cat || !cat.items.length){ gridBox.innerHTML = '<div class="glass p-6 rounded-2xl">No marketing assets yet.</div>'; return; }
+  cat.items.forEach(item=>{
+    const card = document.createElement('div'); card.className='glass p-3 rounded-2xl';
+    card.onclick = ()=>openMarketingModal(item);
+    if(item.type==='image'){ card.innerHTML = `<img src="${item.src}" alt="${item.title}" class="rounded-lg w-full h-48 object-cover" loading="lazy">`; }
+    else { card.innerHTML = `<div class="rounded-lg w-full h-48 bg-black flex items-center justify-center text-sm">▶ Play Video</div>`; }
+    const meta = document.createElement('div'); meta.className='mt-3'; meta.innerHTML = `<div class="text-xs text-gray-400">${cat.name}</div><div class="font-semibold">${item.title}</div>`;
+    card.appendChild(meta); gridBox.appendChild(card);
+  });
+}
+
+function openMarketingModal(item){
+  modal.classList.remove('hidden');
+  modalContent.innerHTML = '';
+  modalCaption.textContent = item.title || '';
+  if(item.type==='image'){
+    const img = document.createElement('img'); img.src = item.src; img.className='modal-img'; modalContent.appendChild(img);
+  } else {
+    const vid = document.createElement('video'); vid.src = item.src; vid.controls = true; vid.autoplay = true; vid.className='modal-img'; modalContent.appendChild(vid);
   }
+}
 
-  // ============ LIGHTBOX ============
-  function setupLightbox() {
-    const modalWrap = document.getElementById('galleryModal');
-    const modalImg = document.getElementById('modalImg');
-    const modalCaption = document.getElementById('modalCaption');
-    const closeBtn = document.getElementById('closeModal');
+/* close modal */
+document.getElementById('closeMarketingModal').onclick = ()=>{ modal.classList.add('hidden'); modalContent.innerHTML=''; modalCaption.textContent=''; };
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ if(!modal.classList.contains('hidden')){ modal.classList.add('hidden'); modalContent.innerHTML=''; } } });
 
-    document.addEventListener('click', (e) => {
-      const el = e.target.closest('.gallery-card');
-      if (!el) return;
-      const src = el.dataset.src;
-      const title = el.dataset.title || '';
-      modalImg.src = src;
-      modalCaption.textContent = title;
-      modalWrap.classList.remove('hidden');
-    });
+/* ------------------------
+   THREE.JS background: gradient shapes + spheres
+   ------------------------ */
+(function threeBg(){
+  const canvas = document.getElementById('three-bg');
+  if(!canvas) return;
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+  camera.position.z = 4.2;
 
-    closeBtn.addEventListener('click', () => {
-      modalWrap.classList.add('hidden');
-      document.getElementById('modalImg').src = '';
-    });
+  // central gradient icosahedron (low poly)
+  const geo = new THREE.IcosahedronGeometry(1.6, 2);
+  const mat = new THREE.MeshStandardMaterial({ color:0xffffff, roughness:0.18, metalness:0.85, emissive:0x061020, emissiveIntensity:0.6 });
+  const mesh = new THREE.Mesh(geo, mat);
+  scene.add(mesh);
 
-    modalWrap.addEventListener('click', (e) => {
-      if (e.target === modalWrap) {
-        modalWrap.classList.add('hidden');
-        modalImg.src = '';
-      }
-    });
+  // gradient shader-ish effect via vertex colors (approx)
+  const colorA = new THREE.Color(0x00ffd5);
+  const colorB = new THREE.Color(0x7b61ff);
+  const position = geo.attributes.position;
+  const colors = [];
+  for(let i=0;i<position.count;i++){
+    const y = position.getY(i);
+    const t = (y+1.6)/3.2;
+    const c = colorA.clone().lerp(colorB, t);
+    colors.push(c.r, c.g, c.b);
   }
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(colors,3));
+  mesh.material.vertexColors = true;
 
-  // ============ INIT GALLERY ============
-  (function initGallery() {
-    createCategoryTabs(GALLERY_DATA);
-    if (GALLERY_DATA.length) renderGallery(GALLERY_DATA[0].slug);
-    setupLightbox();
-  })();
+  // wire overlay
+  const wire = new THREE.MeshBasicMaterial({ color:0x0b0b12, wireframe:true, opacity:0.04, transparent:true });
+  const wireMesh = new THREE.Mesh(geo, wire); wireMesh.scale.set(1.03,1.03,1.03); scene.add(wireMesh);
 
-  // ============ THREE.JS BACKGROUND ============
-  (function threeBg(){
-    const canvas = document.getElementById('three-bg');
-    if (!canvas) return;
-    const renderer = new THREE.WebGLRenderer({ canvas,
+  // floating gradient spheres
+  const group = new THREE.Group();
+  for(let i=0;i<6;i++){
+    const s = new THREE.Mesh(new THREE.SphereGeometry(0.08, 12, 12), new THREE.MeshStandardMaterial({ color: (i%2?0x00ffd5:0x7b61ff), roughness:0.9, metalness:0.25, emissive:0x030018, emissiveIntensity:0.9 }));
+    s.position.set(Math.cos(i)*2.2 + (Math.random()-0.5)*0.6, Math.sin(i)*1.2 + (Math.random()-0.5)*0.6, -0.6 + Math.random()*1.6);
+    group.add(s);
+  }
+  scene.add(group);
+
+  // lights
+  const l1 = new THREE.PointLight(0x00ffd5,1.6,12); l1.position.set(4,4,4); scene.add(l1);
+  const l2 = new THREE.PointLight(0x7b61ff,0.9,12); l2.position.set(-4,-3,3); scene.add(l2);
+  scene.add(new THREE.AmbientLight(0xffffff,0.25));
+
+  // mouse parallax
+  let mouseX=0, mouseY=0;
+  window.addEventListener('mousemove', e=>{ mouseX = (e.clientX - window.innerWidth/2) * 0.0014; mouseY = (e.clientY - window.innerHeight/2) * 0.0014; });
+
+  function animate(){
+    requestAnimationFrame(animate);
+    mesh.rotation.x += 0.006 + mouseY*0.02;
+    mesh.rotation.y += 0.008 + mouseX*0.03;
+    wireMesh.rotation.x = mesh.rotation.x * 1.02; wireMesh.rotation.y = mesh.rotation.y * 1.02;
+    group.children.forEach((c, idx)=>{ c.rotation.y += 0.01 + idx*0.002; c.position.y += Math.sin(Date.now()*0.0006 + idx)*0.0009; });
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', ()=>{ renderer.setSize(window.innerWidth, window.innerHeight); camera.aspect = window.innerWidth/window.innerHeight; camera.updateProjectionMatrix(); });
+})();
+
+/* ------------------------
+   tsParticles
+   ------------------------ */
+tsParticles.load("tsparticles", {
+  fpsLimit:60,
+  background:{ color:{ value:"transparent" } },
+  particles:{
+    number:{ value:60, density:{ enable:true, area:900 } },
+    color:{ value:["#00ffd5","#7b61ff","#00a8ff"] },
+    shape:{ type:"circle" },
+    opacity:{ value:0.55 },
+    size:{ value:{ min:1, max:3 } },
+    move:{ enable:true, speed:0.9, direction:"none", outModes:{ default:"out" } },
+    links:{ enable:true, distance:120, color:"#7b61ff", opacity:0.06, width:1 }
+  },
+  interactivity:{ events:{ onHover:{ enable:true, mode:"repulse" }, onClick:{ enable:true, mode:"push" } } },
+  detectRetina:true
+});
+
+/* ------------------------
+   custom cursor interactions
+   ------------------------ */
+(function cursor(){
+  const cursor = document.getElementById('cursor');
+  if(!cursor) return;
+  document.addEventListener('mousemove', e=>{ cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`; });
+  const interactive = ['a','button','input','textarea','.glass','.link-ani'];
+  document.querySelectorAll(interactive.join(',')).forEach(el=>{
+    el.addEventListener('mouseenter', ()=> cursor.classList.add('big'));
+    el.addEventListener('mouseleave', ()=> cursor.classList.remove('big'));
+  });
+})();
+
+/* ------------------------
+   init marketing UI + footer year
+   ------------------------ */
+(function init(){
+  createMarketingTabs(PRODUCT_MARKETING_DATA);
+  if(PRODUCT_MARKETING_DATA.length) renderMarketing(PRODUCT_MARKETING_DATA[0].slug);
+  document.getElementById('year').innerText = new Date().getFullYear();
+})();
+</script>
+
+<!-- Quick notes:
+  - Upload thumbnails to: assets/projects/<slug>.jpg
+    e.g. assets/projects/midow-tiffin.jpg, ankita-designer.jpg, midow-vercel.jpg, 3art-digital.jpg, kedarnath.jpg, indrashachi.jpg, deeplight.jpg, own-drive.jpg, gad-capital.jpg
+
+  - Marketing assets: assets/marketing/posters/*.jpg and assets/marketing/videos/*.mp4
+
+  - If you want I can prepare compressed thumbnails and 3 demo mockups — upload product photos here and I will generate.
+-->
+
+</body>
+  </html>
